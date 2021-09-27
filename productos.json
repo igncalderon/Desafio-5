@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Mouse",
+    "price": 200,
+    "thumbnail": "foto2.png",
+    "id": 1
+  },
+  {
+    "title": "Lapicera",
+    "price": 100,
+    "thumbnail": "foto2.png",
+    "id": 2
+  },
+  {
+    "title": "Calculadora",
+    "price": 400,
+    "thumbnail": "foto2.png",
+    "id": 3
+  }
+]
