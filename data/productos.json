@@ -6,8 +6,8 @@
     "id": 1
   },
   {
-    "title": "Lapicera",
-    "price": 100,
+    "title": "updateItem",
+    "price": 50,
     "thumbnail": "foto2.png",
     "id": 2
   },
@@ -16,5 +16,17 @@
     "price": 400,
     "thumbnail": "foto2.png",
     "id": 3
+  },
+  {
+    "title": "Billetera",
+    "price": 500,
+    "thumbnail": "foto2.png",
+    "id": 4
+  },
+  {
+    "title": "Celular",
+    "price": 10000,
+    "thumbnail": "foto2.png",
+    "id": 5
   }
 ]

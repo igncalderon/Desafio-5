@@ -1,28 +1,20 @@
-// const http = require("http");
-
-// const server = http.createServer((solicitud, respuesta) => {
-//   const hour = new Date().getHours();
-//   if (hour > 6 && hour <= 12) {
-//     respuesta.end("Buenos dias");
-//   } else if (hour > 13 && hour <= 19) {
-//     respuesta.end("Buenas tardes");
-//   } else {
-//     respuesta.end("Buenas noches");
-//   }
-// });
-
-// const serverConnected = server.listen(8080, () => {
-//   console.log(
-//     "server corriendo en el puerto " + serverConnected.address().port
-//   );
-// });
-
 const express = require("express");
 const app = express();
+
 const Contenedor = require("./Contenedor");
-const miContenedor = new Contenedor("productos.json");
+const miContenedor = new Contenedor("./data/productos.json");
+
+const productosRouter = require("./routers/productos");
 
 const PORT = 8080;
+
+// middlewares de express que permite usar el req.body
+// setear el formate de los parametros que voy a recibir en json
+// json extendidos, no solo texto, sino numeros
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static("public"));
 
 app.get("/", (req, res, next) => {
   res.send("<h1>Bienvenidos al servidores express</h1>");
@@ -31,10 +23,13 @@ app.get("/", (req, res, next) => {
 obtenerRandom = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
+/* LO PASO AL ROUTERS DE PRODUCTOS
 app.get("/productos", async (req, res) => {
   const listaDeProductos = await miContenedor.getAll();
   res.send({ message: listaDeProductos });
 });
+ */
+app.use("/api/productos", productosRouter);
 
 app.get("/productoRandom", async (req, res) => {
   const listaDeProductos = await miContenedor.getAll();

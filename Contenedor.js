@@ -65,7 +65,30 @@ class Contenedor {
       return error;
     }
   }
-
+  async updateItem(item) {
+    const { title, price, thumbnail, id } = item;
+    try {
+      console.log(item);
+      const contenidoJSON = await fs.promises.readFile(
+        `./${this.file}`,
+        "utf-8"
+      );
+      const contenido = JSON.parse(contenidoJSON);
+      const contenidoActualizado = contenido.map((producto) => {
+        if (producto.id == id) {
+          producto.title = title;
+          (producto.price = price), (producto.thumbnail = thumbnail);
+          return producto;
+        }
+        return producto;
+      });
+      const contenidoString = JSON.stringify(contenidoActualizado, null, 2);
+      console.log(contenidoString);
+      await fs.promises.writeFile(`./${this.file}`, contenidoString);
+    } catch (error) {
+      return error;
+    }
+  }
   async deleteById(idDelete) {
     try {
       const contenidoJSON = await fs.promises.readFile(
