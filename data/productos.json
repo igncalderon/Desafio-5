@@ -2,31 +2,19 @@
   {
     "title": "Mouse",
     "price": 200,
-    "thumbnail": "foto2.png",
+    "thumbnail": "https://oasify.com/wp-content/uploads/2020/11/910-005793-1.jpg",
     "id": 1
   },
   {
-    "title": "updateItem",
-    "price": 50,
-    "thumbnail": "foto2.png",
+    "title": "Teclado Gamer",
+    "price": "2000",
+    "thumbnail": "https://www.digital-storeweb.com.ar/wp-content/uploads/sites/18/2020/08/caratual-multicolor-2.jpg",
     "id": 2
   },
   {
-    "title": "Calculadora",
-    "price": 400,
-    "thumbnail": "foto2.png",
+    "title": "iPhone X",
+    "price": "100000",
+    "thumbnail": "https://http2.mlstatic.com/D_NQ_NP_645451-MLA44598319487_012021-V.jpg",
     "id": 3
-  },
-  {
-    "title": "Billetera",
-    "price": 500,
-    "thumbnail": "foto2.png",
-    "id": 4
-  },
-  {
-    "title": "Celular",
-    "price": 10000,
-    "thumbnail": "foto2.png",
-    "id": 5
   }
 ]

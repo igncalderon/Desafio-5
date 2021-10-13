@@ -1,0 +1,13 @@
+<main>
+  <div class="jumbotron">
+    <label for="medidor"><%- titulo %></label>
+    <p><%= min %></p>
+    <meter
+      id="medidor"
+      min="<%= min %>"
+      max="<%= max %>"
+      value="<%= nivel %>"
+    ></meter>
+    <p><%= max %></p>
+  </div>
+</main>

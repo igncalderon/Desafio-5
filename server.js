@@ -8,18 +8,36 @@ const productosRouter = require("./routers/productos");
 
 const PORT = 8080;
 
+app.set("view engine", "ejs");
 // middlewares de express que permite usar el req.body
 // setear el formate de los parametros que voy a recibir en json
 // json extendidos, no solo texto, sino numeros
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static("public"));
+app.use(express.static(__dirname + '/public'));
 
-app.get("/", (req, res, next) => {
-  res.send("<h1>Bienvenidos al servidores express</h1>");
+app.get("/datos", (req, res) => {
+  res.render("pages/index", {
+    min: req.query.min,
+    nivel: req.query.nivel,
+    max: req.query.max,
+    titulo: req.query.titulo,
+  });
 });
-
+app.get('/', (req,res) => {
+  res.render('pages/form')
+}) 
+app.post('/nuevoitem', async (req,res) => {
+  await miContenedor.save(req.body)
+  res.redirect('productos')
+} )
+app.get("/productos", async (req, res) => {
+  const listaDeProductos = await miContenedor.getAll();
+  res.render("pages/products", {
+    productos: listaDeProductos,
+  });
+});
 obtenerRandom = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
