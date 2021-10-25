@@ -6,20 +6,21 @@
   <body>
     <header><%- include('../partials/header'); %></header>
     <main>
-
+      
       <section class="form-group">
-        <form action="/nuevoitem" method="POST">
+        <form id="form-product" action="/nuevoitem" method="POST">
           <label>Nombre</label>
-          <input class="form-control" type="text" name="title" />
+          <input id="form-title" class="form-control" type="text" name="title" />
           <label>Precio</label>
-          <input class="form-control" type="text" name="price" />
+          <input id="form-price" class="form-control" type="text" name="price" />
           <label>Imagen</label>
-          <input class="form-control" type="text" name="thumbnail" />
+          <input id="form-thumbnail" class="form-control" type="text" name="thumbnail" />
           <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
       </section>
-     
+      <div id="products"></div>
     </main>
     <footer><%- include('../partials/footer'); %></footer>
   </body>
-</html>
+
+  </html>

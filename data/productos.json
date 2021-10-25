@@ -16,5 +16,11 @@
     "price": "100000",
     "thumbnail": "https://http2.mlstatic.com/D_NQ_NP_645451-MLA44598319487_012021-V.jpg",
     "id": 3
+  },
+  {
+    "title": "Auriculares",
+    "price": "2000",
+    "thumbnail": "foto.png",
+    "id": 4
   }
 ]

@@ -1,5 +1,10 @@
-const express = require("express");
+const express = require('express');
+const { Server: SocketServer } = require('socket.io')
+const { Server: HttpServer } = require('http')
+
 const app = express();
+const httpServer = new HttpServer(app)
+const io = new SocketServer(httpServer)
 
 const Contenedor = require("./Contenedor");
 const miContenedor = new Contenedor("./data/productos.json");
@@ -9,22 +14,27 @@ const productosRouter = require("./routers/productos");
 const PORT = 8080;
 
 app.set("view engine", "ejs");
-// middlewares de express que permite usar el req.body
-// setear el formate de los parametros que voy a recibir en json
-// json extendidos, no solo texto, sino numeros
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('/public'));
 
-app.get("/datos", (req, res) => {
-  res.render("pages/index", {
-    min: req.query.min,
-    nivel: req.query.nivel,
-    max: req.query.max,
-    titulo: req.query.titulo,
-  });
-});
+io.on('connection', async (socket) => {
+  console.log('Nuevo cliente conectado!')
+
+  socket.emit('products', await miContenedor.getAll())
+  
+  socket.on('new-product', async (product) => {
+    await miContenedor.save(product)
+    const products = await miContenedor.getAll()
+
+    // notificara a todos los sockets conectados con el io.sockets.emit
+    io.sockets.emit('products', products)
+  })
+})
+app.use("/api/productos", productosRouter);
+
+
 app.get('/', (req,res) => {
   res.render('pages/form')
 }) 
@@ -38,25 +48,11 @@ app.get("/productos", async (req, res) => {
     productos: listaDeProductos,
   });
 });
-obtenerRandom = (min, max) => {
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-/* LO PASO AL ROUTERS DE PRODUCTOS
-app.get("/productos", async (req, res) => {
-  const listaDeProductos = await miContenedor.getAll();
-  res.send({ message: listaDeProductos });
-});
- */
-app.use("/api/productos", productosRouter);
 
-app.get("/productoRandom", async (req, res) => {
-  const listaDeProductos = await miContenedor.getAll();
-  const indiceAleatorio = obtenerRandom(0, listaDeProductos.length);
-  res.send({ message: listaDeProductos[indiceAleatorio] });
-});
 
-app.listen(PORT, () => {
-  console.log("Server corriendo en puerto: ", PORT);
-});
+const server = httpServer.listen(PORT, () => 
+    console.log(`Servidor abierto en http://localhost:${PORT}/`)
+)
 
-app.on("error", (error) => console.log("Error: ", error));
+
+server.on("error", (error) => console.log("Error:  ", error));
