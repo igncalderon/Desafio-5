@@ -1,13 +1,32 @@
 const socket = io.connect();
 
 
+const addProduct = (e) => {
+    e.preventDefault()
+    const product = {
+        title: document.getElementById('form-title').value,
+        price: document.getElementById('form-price').value,
+        thumbnail: document.getElementById('form-thumbnail').value
+    }
+    socket.emit('new-product', product)
+}
 const render = (products) => {
-    const html = products.map(product => {
-        return(`<article>
-        <strong>${product.title}</strong>:
-        <em>${product.price}</em> </article>`)
+    const productsTr = products.map(product => {
+        return(`
+        <tr>
+        <th>${product.title}</th>:
+        <th>${product.price}</th> 
+        <th><img src="${product.thumbnail}"/></th> 
+        </tr>
+        `)
     }).join(" ")
-    document.getElementById('products').innerHTML = html
+    const tableTr = (`
+    <tr>
+    <th>Titulo</th>
+    <th>Precio</th>
+    <th>Imagen</th>
+  </tr>`)
+    document.getElementById('table-form').innerHTML = tableTr + productsTr
 
 }
 
@@ -21,11 +40,3 @@ const form = document.getElementById('form-product')
 form.addEventListener('submit', addProduct)
 
 
-const addProduct = (e) => {
-    e.preventDefault()
-    const product = {
-        title: document.getElementById('form-title').value,
-        price: document.getElementById('form-price').value
-    }
-    socket.emit('new-product', product)
-}

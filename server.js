@@ -16,8 +16,7 @@ const PORT = 8080;
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static('/public'));
+app.use(express.static(__dirname + '/public'));
 
 io.on('connection', async (socket) => {
   console.log('Nuevo cliente conectado!')
@@ -35,13 +34,15 @@ io.on('connection', async (socket) => {
 app.use("/api/productos", productosRouter);
 
 
-app.get('/', (req,res) => {
-  res.render('pages/form')
+app.get('/', async (req,res) => {
+  res.render('../views/pages/form')
 }) 
 app.post('/nuevoitem', async (req,res) => {
   await miContenedor.save(req.body)
   res.redirect('productos')
 } )
+
+
 app.get("/productos", async (req, res) => {
   const listaDeProductos = await miContenedor.getAll();
   res.render("pages/products", {
