@@ -1,0 +1,16 @@
+[
+  {
+    "products": [
+      {
+        "nombre": "Test",
+        "descripcion": "test-description",
+        "codigo": 1000,
+        "foto": "asd",
+        "precio": "1000",
+        "stock": 200,
+        "id": 1
+      }
+    ],
+    "id": 1
+  }
+]

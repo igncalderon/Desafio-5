@@ -19,8 +19,16 @@
         </form>
       </section>
       <table id="table-form"></table>
-      
-      <div id="products"></div>
+      <section class="chat-clients">
+        <form id="form-message" action="/newMessage" method="POST">
+          <label>Mensaje</label>
+          <input id="form-message" class="form-control" type="text" name="message" />
+          <label>Email</label>
+          <input id="form-email" class="form-control" type="email" name="email" />
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </section>
+      <div id="messages"></div>
     </main>
     <footer><%- include('../partials/footer'); %></footer>
   </body>

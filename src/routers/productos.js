@@ -1,7 +1,8 @@
 const express = require("express");
 const productosRouter = express.Router();
 
-const Contenedor = require("../Contenedor");
+const Contenedor = require("../../Contenedor");
+const isAdmin = require("../middlewares/isAdmin");
 const miContenedor = new Contenedor("./data/productos.json");
 
 productosRouter.get("/", async (req, res) => {
@@ -17,14 +18,14 @@ productosRouter.get("/:id", async (req, res) => {
     : res.send({ error: "producto no encontrado" });
 });
 
-productosRouter.post("/", async (req, res) => {
+productosRouter.post("/", isAdmin, async (req, res) => {
   const productoNuevo = await miContenedor.save(req.body);
   res.send({
     ...req.body,
   });
 });
 
-productosRouter.put("/:id", async (req, res) => {
+productosRouter.put("/:id", isAdmin, async (req, res) => {
   const { id } = req.params;
   const { title, price, thumbnail } = req.body;
   const itemActualizado = {
@@ -37,7 +38,7 @@ productosRouter.put("/:id", async (req, res) => {
   res.send({ message: "Item actualizado" });
 });
 
-productosRouter.delete("/:id", async (req, res) => {
+productosRouter.delete("/:id", isAdmin, async (req, res) => {
   const { id } = req.params;
   const productoEliminado = await miContenedor.deleteById(id);
   res.send({ message: productoEliminado });

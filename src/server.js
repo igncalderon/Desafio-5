@@ -6,22 +6,33 @@ const app = express();
 const httpServer = new HttpServer(app)
 const io = new SocketServer(httpServer)
 
-const Contenedor = require("./Contenedor");
-const miContenedor = new Contenedor("./data/productos.json");
+const { getMessages, saveMessage } = require('../data/messages')
+
+const ContainerProducts = require("../Contenedor");
+const miContenedor = new ContainerProducts("./data/productos.json");
 
 const productosRouter = require("./routers/productos");
+const cartRouter = require('./routers/carts');
 
 const PORT = 8080;
 
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../public'));
 
 io.on('connection', async (socket) => {
   console.log('Nuevo cliente conectado!')
 
   socket.emit('products', await miContenedor.getAll())
+  socket.emit('messages', getMessages())
+
+  socket.on('new-message', (message) => {
+    saveMessage({message})
+    const messages = getMessages()
+
+    io.socket.emit('messages', messages)
+  })
   
   socket.on('new-product', async (product) => {
     await miContenedor.save(product)
@@ -31,8 +42,9 @@ io.on('connection', async (socket) => {
     io.sockets.emit('products', products)
   })
 })
-app.use("/api/productos", productosRouter);
 
+app.use("/api/productos", productosRouter);
+app.use("/api/carrito", cartRouter)
 
 app.get('/', async (req,res) => {
   res.render('../views/pages/form')
